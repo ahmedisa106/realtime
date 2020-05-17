@@ -12,13 +12,15 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/2eb6657f57.js" crossorigin="anonymous"></script>
+
 
 </head>
 <body>
@@ -43,6 +45,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
+
                     @auth
                         <li class="dropdown dropdown-notification nav-item  dropdown-notifications">
                             <a class="nav-link nav-link-label" href="#" data-toggle="dropdown">
@@ -81,6 +84,8 @@
                             </ul>
                         </li>
                     @endauth
+
+
                     @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -91,17 +96,11 @@
                             </li>
                         @endif
                     @else
-
-
-
                         <li class="nav-item dropdown">
-
-
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
-
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
@@ -127,19 +126,28 @@
     </main>
 </div>
 
-{{--pusher and jquery libraries--}}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 
+
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
     var pusher = new Pusher('813bd24eb8cc3cb83de2', {
-        cluster: 'mt1'
+        //cluster: 'mt1',
+        encrypted: false
     });
 
 </script>
+
+<script src="{{asset('js/pusherNotifications.js')}}"></script>
 
 </body>
 </html>
